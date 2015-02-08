@@ -1,12 +1,12 @@
 package com.espreccino.peppertalk.sample;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,20 +25,26 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity implements LoginFragment.LoginFragmentListener,
         PepperTalk.ConnectionListener {
 
+    private final String TAG = "MainActivity.class";
+
     static final String[] USERS = {"Jon:jon_android@getpeppertalk.com",
             "Ben:ben_android@getpeppertalk.com"};
 
     static List<User> mUsers = new ArrayList<User>();
     private final static String PREF_USER = "com.espreccino.peppertalk.sample_user_login";
+    ProgressDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        for (String usr : USERS) {
-            String[] split = usr.split(":");
-            mUsers.add(new User(split[0], split[1]));
+        mDialog = new ProgressDialog(this);
+        if (mUsers.size() != USERS.length) {
+            for (String usr : USERS) {
+                String[] split = usr.split(":");
+                mUsers.add(new User(split[0], split[1]));
+            }
         }
 
         if (savedInstanceState == null) {
@@ -51,9 +57,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
                         .add(R.id.container, fragment)
                         .commit();
             } else {
-                getSupportActionBar().show();
-                setTitle("PepperTalk");
-                initPepperTalk(userId);
+                loadUserFragment(userId);
             }
         }
     }
@@ -79,36 +83,48 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
 
     @Override
     public void onConnecting(int i) {
-
+        showDialog(true);
     }
 
     @Override
     public void onConnected() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, UsersFragment.getInstance(getRegisteredUser()))
-                        .commit();
-            }
-        });
+        showDialog(false);
     }
 
     @Override
-    public void onConnectionFailed() {
-
+    public void onConnectionFailed(Throwable e) {
+        showDialog(false);
+        e.printStackTrace();
     }
 
     @Override
     public void onUserSelected(String userId) {
         registerUser(userId);
-        initPepperTalk(userId);
+        loadUserFragment(userId);
     }
 
+    private void loadUserFragment(String userId) {
+        getSupportActionBar().show();
+        setTitle("PepperTalk");
+        initPepperTalk(userId);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, UsersFragment.getInstance(getRegisteredUser()))
+                .commit();
+    }
+
+    private void showDialog(boolean show) {
+        if (show) {
+            mDialog.setTitle("loading...");
+            mDialog.show();
+        } else {
+            mDialog.dismiss();
+        }
+    }
 
     /**
      * Add client_id and client_secret in strings.xml
+     *
      * @param userId
      */
     private void initPepperTalk(String userId) {
@@ -132,8 +148,8 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
 
         public static UsersFragment getInstance(String registeredUserId) {
             UsersFragment fragment = new UsersFragment();
-            for(User usr : mUsers) {
-                if(usr.email.equals(registeredUserId)){
+            for (User usr : mUsers) {
+                if (usr.email.equals(registeredUserId)) {
                     mUsers.remove(usr);
                     break;
                 }
@@ -230,21 +246,25 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
     }
 
     private boolean isUserRegistered() {
-        String userId = PreferenceManager.getDefaultSharedPreferences(this)
+        String userId = getSharedPrefs()
                 .getString(PREF_USER, null);
         return userId != null;
     }
 
     private String getRegisteredUser() {
-        return PreferenceManager.getDefaultSharedPreferences(this)
+        return getSharedPrefs()
                 .getString(PREF_USER, null);
     }
 
     private void registerUser(String userId) {
-        PreferenceManager.getDefaultSharedPreferences(this)
+        getSharedPrefs()
                 .edit()
                 .putString(PREF_USER, userId)
                 .apply();
+    }
+
+    private SharedPreferences getSharedPrefs() {
+        return getSharedPreferences("com.esp", MODE_PRIVATE);
     }
 
 }

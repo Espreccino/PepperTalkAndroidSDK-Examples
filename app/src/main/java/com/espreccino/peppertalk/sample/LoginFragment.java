@@ -58,7 +58,8 @@ public class LoginFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (mLoginFragmentListener != null) {
-            mLoginFragmentListener.onUserSelected(mUsers.get(position).email);
+            User user = (User) getListView().getAdapter().getItem(position);
+            mLoginFragmentListener.onUserSelected(user.email);
         }
     }
 
