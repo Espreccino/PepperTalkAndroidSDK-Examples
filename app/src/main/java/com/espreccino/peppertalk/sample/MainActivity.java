@@ -101,10 +101,17 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         initPepperTalk(userId);
     }
 
+
+    /**
+     * Add client_id and client_secret in strings.xml
+     * @param userId
+     */
     private void initPepperTalk(String userId) {
+        String clientId = getString(R.string.client_id);
+        String clientSecret = getString(R.string.client_secret);
         PepperTalk.getInstance(this)
-                .initialize(Config.CLIENT_ID,
-                        Config.CLIENT_SECRET,
+                .initialize(clientId,
+                        clientSecret,
                         userId)
                 .connectionListener(this)
                 .connect();
