@@ -3,6 +3,31 @@ PepperTalk Android SDK sample.
 
 Get your client id and client secret [here](0)
 
+Add PepperTalk to your application
+
+Gradle dependency (Sonatype Snapshot)
+```xml
+    compile 'com.espreccino:peppertalk:0.4.2-SNAPSHOT'
+```
+[build.gradle](2)
+```groovy
+buildscript {
+    repositories {
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots'}
+    }
+}
+...
+repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots'}
+}
+...
+
+dependencies {
+    compile 'com.espreccino:peppertalk:0.4.2-SNAPSHOT'
+}
+
+```
+
 Update your client_id and client_secret in [strings.xml](1)
 ```xml
     <string name="client_id">CLIENT_ID</string>
@@ -43,3 +68,4 @@ PepperTalk.getInstance(context)
 
 (0)http://console.getpeppertalk.com/
 (1)https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/res/values/strings.xml#L6
+(2)https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/build.gradle
