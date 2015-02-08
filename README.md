@@ -14,7 +14,7 @@ Add PepperTalk to your application
 
 Gradle dependency (Sonatype Snapshot)
 ```xml
-    compile 'com.espreccino:peppertalk:0.4.2-SNAPSHOT'
+    compile 'com.espreccino:peppertalk:0.4.3-SNAPSHOT'
 ```
 
 [build.gradle] [2]
@@ -32,7 +32,7 @@ repositories {
 ...
 
 dependencies {
-    compile 'com.espreccino:peppertalk:0.4.2-SNAPSHOT'
+    compile 'com.espreccino:peppertalk:0.4.3-SNAPSHOT'
 }
 
 ```
