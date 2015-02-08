@@ -62,25 +62,6 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     @Override
     public void onConnecting(int i) {
         showDialog(true);
@@ -131,7 +112,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         String clientId = getString(R.string.client_id);
         String clientSecret = getString(R.string.client_secret);
         PepperTalk.getInstance(this)
-                .initialize(clientId,
+                .init(clientId,
                         clientSecret,
                         userId)
                 .connectionListener(this)
@@ -141,7 +122,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
     /**
      * User fragment
      */
-    public static class UsersFragment extends ListFragment implements PepperTalk.MessageCallback {
+    public static class UsersFragment extends ListFragment implements PepperTalk.MessageListener {
 
         private String mTopicId = "100010001";
         UserAdapter mUserAdapter;
@@ -172,13 +153,13 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
             mUserAdapter = new UserAdapter();
             getListView().setAdapter(mUserAdapter);
             PepperTalk.getInstance(getActivity())
-                    .setMessageCallback(this);
+                    .setMessageListener(this);
         }
 
         @Override
         public void onListItemClick(ListView l, View v, int position, long id) {
             PepperTalk.getInstance(getActivity())
-                    .chatWith(mUsers.get(position).email)
+                    .chatWithParticipant(mUsers.get(position).email)
                     .topicId(mTopicId)
                     .topicTitle("Let ride!")
                     .start();
@@ -239,7 +220,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
                 public void loadUser(User user) {
                     textUserEmail.setText(user.email);
                     textUserName.setText(user.name);
-                    textMessageCount.setText(PepperTalk.getInstance(getActivity()).getUnreadForTopicUser(user.email, mTopicId) + "");
+                    textMessageCount.setText(PepperTalk.getInstance(getActivity()).getParticipantUnreadCount(user.email, mTopicId) + "");
                 }
             }
         }

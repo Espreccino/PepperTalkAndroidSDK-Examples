@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">PepperTalkSample</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">@string/app_name</string>
+    <string name="pepper_talk">PepperTalk</string>
+    <string name="choose_login">Pick a user to login</string>
+    <string name="choose_user">Pick a user to start a conversation</string>
 
     <!-- Uncomment the attrs below and
         Add your client Id and client secret
