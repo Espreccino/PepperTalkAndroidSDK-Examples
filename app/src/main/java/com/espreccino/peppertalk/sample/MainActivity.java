@@ -1,8 +1,10 @@
 package com.espreccino.peppertalk.sample;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,32 +12,41 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.espreccino.peppertalk.PepperTalk;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements PepperTalk.ConnectionListener {
+
+public class MainActivity extends ActionBarActivity implements LoginFragment.LoginFragmentListener,
+        PepperTalk.ConnectionListener {
 
     static final String USER_1 = "user_android_1@getpeppertalk.com";
     static final String USER_2 = "user_android_2@getpeppertalk.com";
+
+    static String[] mUsers = {USER_1, USER_2};
+    private final static String PREF_USER = "com.espreccino.peppertalk.sample_user_login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new UsersFragment())
-                    .commit();
-        }
 
-        PepperTalk.getInstance(this)
-                .initialize(Config.CLIENT_ID,
-                        Config.CLIENT_SECRET,
-                        USER_1)
-                .connectionListener(this)
-                .connect();
+        if (savedInstanceState == null) {
+            String userId = getRegisteredUser();
+            Fragment fragment;
+            if (userId == null) {
+                fragment = new LoginFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.container, fragment)
+                        .commit();
+            } else {
+                initPepperTalk(userId);
+            }
+        }
     }
 
 
@@ -61,14 +72,19 @@ public class MainActivity extends ActionBarActivity implements PepperTalk.Connec
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onConnecting() {
 
+    @Override
+    public void onConnecting(int i) {
+        
     }
 
     @Override
     public void onConnected() {
-        Log.d("Main", "Connected..");
+        Log.d("MainActivity", "Connected...");
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, UsersFragment.getInstance(getRegisteredUser()))
+                .commit();
     }
 
     @Override
@@ -76,12 +92,35 @@ public class MainActivity extends ActionBarActivity implements PepperTalk.Connec
         Log.d("Main", "Failed..");
     }
 
+    @Override
+    public void onUserSelected(String userId) {
+        registerUser(userId);
+        initPepperTalk(userId);
+    }
+
+    private void initPepperTalk(String userId) {
+        PepperTalk.getInstance(this)
+                .initialize(Config.CLIENT_ID,
+                        Config.CLIENT_SECRET,
+                        userId)
+                .connectionListener(this)
+                .connect();
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class UsersFragment extends Fragment implements PepperTalk.MessageCallback {
+    public static class UsersFragment extends ListFragment implements PepperTalk.MessageCallback {
 
-        TextView mTextViewUser2;
+        List<String> mUsersList = new ArrayList<String>();
+
+        private String mRegisteredUser;
+
+        public static UsersFragment getInstance(String registeredUserId) {
+            UsersFragment fragment = new UsersFragment();
+            fragment.mRegisteredUser = registeredUserId;
+            return fragment;
+        }
 
         public UsersFragment() {
         }
@@ -89,32 +128,52 @@ public class MainActivity extends ActionBarActivity implements PepperTalk.Connec
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+            return inflater.inflate(R.layout.fragment_users, container, false);
         }
 
         @Override
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            mTextViewUser2 = (TextView) view.findViewById(R.id.textView_user);
-            mTextViewUser2.setText(USER_2);
-            setListener();
+            for (String u : mUsers) {
+                if (!u.equals(mRegisteredUser)) {
+                    mUsersList.add(u);
+                }
+            }
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_list_item_1);
+            arrayAdapter.addAll(mUsersList);
+            getListView().setAdapter(arrayAdapter);
         }
 
-        private void setListener() {
-            mTextViewUser2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PepperTalk.getInstance(getActivity())
-                            .chatWith(USER_2)
-                            .start();
-                }
-            });
+        @Override
+        public void onListItemClick(ListView l, View v, int position, long id) {
+            PepperTalk.getInstance(getActivity())
+                    .chatWith(USER_2)
+                    .start();
         }
 
         @Override
         public void onNewMessage(String userId, String topicId, int unreadCount) {
-            mTextViewUser2.setText(USER_2 + " " + (unreadCount));
+
         }
     }
+
+    private boolean isUserRegistered() {
+        String userId = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(PREF_USER, null);
+        return userId != null;
+    }
+
+    private String getRegisteredUser() {
+        return PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(PREF_USER, null);
+    }
+
+    private void registerUser(String userId) {
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putString(PREF_USER, userId)
+                .apply();
+    }
+
 }
