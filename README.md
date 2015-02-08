@@ -3,6 +3,13 @@ PepperTalk Android SDK sample.
 
 Get your client id and client secret [here] [1]
 
+Update your client_id and client_secret in [strings.xml] [3]
+
+```xml
+    <string name="client_id">CLIENT_ID</string>
+    <string name="client_secret">CLIENT_SECRET</string> 
+```
+
 Add PepperTalk to your application
 
 Gradle dependency (Sonatype Snapshot)
@@ -29,15 +36,8 @@ dependencies {
 }
 
 ```
-
-Update your client_id and client_secret in [strings.xml] [3]
-
-```xml
-    <string name="client_id">CLIENT_ID</string>
-    <string name="client_secret">CLIENT_SECRET</string> 
-```
-
 Initialize PepperTalk
+
 ```java
  PepperTalk.getInstance(context)
                 .init(clientId,
@@ -59,6 +59,7 @@ PepperTalk.getInstance(context)
 Message Listener 
 - New Message
 - Unread count
+
 ```java
 PepperTalk.getInstance(context)
                     .setMessageListener(new PepperTalk.MessageListener() {
