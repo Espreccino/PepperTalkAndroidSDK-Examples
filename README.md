@@ -1,7 +1,7 @@
 PepperTalk Android SDK sample.
 -----------------------------
 
-Get your client id and client secret [here](0)
+Get your client id and client secret [here] [1]
 
 Add PepperTalk to your application
 
@@ -9,7 +9,9 @@ Gradle dependency (Sonatype Snapshot)
 ```xml
     compile 'com.espreccino:peppertalk:0.4.2-SNAPSHOT'
 ```
-[build.gradle](2)
+
+[build.gradle] [2]
+
 ```groovy
 buildscript {
     repositories {
@@ -28,10 +30,11 @@ dependencies {
 
 ```
 
-Update your client_id and client_secret in [strings.xml](1)
+Update your client_id and client_secret in [strings.xml] [3]
+
 ```xml
     <string name="client_id">CLIENT_ID</string>
-    <string name="client_secret">CLIENT_SECRET</string>
+    <string name="client_secret">CLIENT_SECRET</string> 
 ```
 
 Initialize PepperTalk
@@ -66,6 +69,6 @@ PepperTalk.getInstance(context)
                     });
 ```
 
-(0)http://console.getpeppertalk.com/
-(1)https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/res/values/strings.xml#L6
-(2)https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/build.gradle
+[1]: http://console.getpeppertalk.com/ "PepperTalk"
+[2]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/build.gradle "build.gralde"
+[3]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/res/values/strings.xml#L6 "strings.xml"
