@@ -28,3 +28,4 @@ proguard/
 
 # Log Files
 *.log
+src/main/java/com/espreccino/peppertalk/sample/Config.java
