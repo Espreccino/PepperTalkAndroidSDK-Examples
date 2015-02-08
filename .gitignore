@@ -8,3 +8,5 @@
 *.iml
 .idea
 .gradle
+
+app/src/main/java/com/espreccino/peppertalk/sample/Config.java

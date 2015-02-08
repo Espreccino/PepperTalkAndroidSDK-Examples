@@ -8,6 +8,4 @@ public interface Config {
     public static String CLIENT_ID = "GPzpSkRGZ3RIOYXMhYuGHMkn0hZUN3VT";
     public static String CLIENT_SECRET = "ZiUHpiiBr08jytTZuHWpJMVJhR0f6h7s";
 
-    static final String USER_1 = "user_android_1@getpeppertalk.com";
-    static final String USER_2 = "user_android_2@getpeppertalk.com";
 }

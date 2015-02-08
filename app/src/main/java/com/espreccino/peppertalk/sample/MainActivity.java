@@ -17,6 +17,9 @@ import com.espreccino.peppertalk.PepperTalk;
 
 public class MainActivity extends ActionBarActivity implements PepperTalk.ConnectionListener {
 
+    static final String USER_1 = "user_android_1@getpeppertalk.com";
+    static final String USER_2 = "user_android_2@getpeppertalk.com";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements PepperTalk.Connec
         PepperTalk.getInstance(this)
                 .initialize(Config.CLIENT_ID,
                         Config.CLIENT_SECRET,
-                        Config.USER_1)
+                        USER_1)
                 .connectionListener(this)
                 .connect();
     }
@@ -94,7 +97,7 @@ public class MainActivity extends ActionBarActivity implements PepperTalk.Connec
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
             mTextViewUser2 = (TextView) view.findViewById(R.id.textView_user);
-            mTextViewUser2.setText(Config.USER_2);
+            mTextViewUser2.setText(USER_2);
             setListener();
         }
 
@@ -103,7 +106,7 @@ public class MainActivity extends ActionBarActivity implements PepperTalk.Connec
                 @Override
                 public void onClick(View v) {
                     PepperTalk.getInstance(getActivity())
-                            .chatWith(Config.USER_2)
+                            .chatWith(USER_2)
                             .start();
                 }
             });
@@ -111,7 +114,7 @@ public class MainActivity extends ActionBarActivity implements PepperTalk.Connec
 
         @Override
         public void onNewMessage(String userId, String topicId, int unreadCount) {
-            mTextViewUser2.setText(Config.USER_2 + " " + (unreadCount));
+            mTextViewUser2.setText(USER_2 + " " + (unreadCount));
         }
     }
 }
