@@ -84,10 +84,15 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
 
     @Override
     public void onConnected() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, UsersFragment.getInstance(getRegisteredUser()))
-                .commit();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, UsersFragment.getInstance(getRegisteredUser()))
+                        .commit();
+            }
+        });
     }
 
     @Override
