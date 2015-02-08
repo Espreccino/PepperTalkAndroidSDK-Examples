@@ -12,8 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.espreccino.peppertalk.PepperTalk;
 
@@ -24,10 +25,10 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity implements LoginFragment.LoginFragmentListener,
         PepperTalk.ConnectionListener {
 
-    static final String USER_1 = "user_android_1@getpeppertalk.com";
-    static final String USER_2 = "user_android_2@getpeppertalk.com";
+    static final String[] USERS = {"Jon:jon_android@getpeppertalk.com",
+            "Ben:ben_android@getpeppertalk.com"};
 
-    static String[] mUsers = {USER_1, USER_2};
+    static List<User> mUsers = new ArrayList<User>();
     private final static String PREF_USER = "com.espreccino.peppertalk.sample_user_login";
 
     @Override
@@ -35,15 +36,23 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        for (String usr : USERS) {
+            String[] split = usr.split(":");
+            mUsers.add(new User(split[0], split[1]));
+        }
+
         if (savedInstanceState == null) {
             String userId = getRegisteredUser();
             Fragment fragment;
             if (userId == null) {
-                fragment = new LoginFragment();
+                getSupportActionBar().hide();
+                fragment = LoginFragment.getInstance(mUsers);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.container, fragment)
                         .commit();
             } else {
+                getSupportActionBar().show();
+                setTitle("PepperTalk");
                 initPepperTalk(userId);
             }
         }
@@ -64,23 +73,17 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
 
     @Override
     public void onConnecting(int i) {
-        
+
     }
 
     @Override
     public void onConnected() {
-        Log.d("MainActivity", "Connected...");
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, UsersFragment.getInstance(getRegisteredUser()))
@@ -89,7 +92,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
 
     @Override
     public void onConnectionFailed() {
-        Log.d("Main", "Failed..");
+
     }
 
     @Override
@@ -108,17 +111,21 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
     }
 
     /**
-     * A placeholder fragment containing a simple view.
+     * User fragment
      */
     public static class UsersFragment extends ListFragment implements PepperTalk.MessageCallback {
 
-        List<String> mUsersList = new ArrayList<String>();
-
-        private String mRegisteredUser;
+        private String mTopicId = "100010001";
+        UserAdapter mUserAdapter;
 
         public static UsersFragment getInstance(String registeredUserId) {
             UsersFragment fragment = new UsersFragment();
-            fragment.mRegisteredUser = registeredUserId;
+            for(User usr : mUsers) {
+                if(usr.email.equals(registeredUserId)){
+                    mUsers.remove(usr);
+                    break;
+                }
+            }
             return fragment;
         }
 
@@ -134,27 +141,79 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         @Override
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            for (String u : mUsers) {
-                if (!u.equals(mRegisteredUser)) {
-                    mUsersList.add(u);
-                }
-            }
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1);
-            arrayAdapter.addAll(mUsersList);
-            getListView().setAdapter(arrayAdapter);
+            mUserAdapter = new UserAdapter();
+            getListView().setAdapter(mUserAdapter);
+            PepperTalk.getInstance(getActivity())
+                    .setMessageCallback(this);
         }
 
         @Override
         public void onListItemClick(ListView l, View v, int position, long id) {
             PepperTalk.getInstance(getActivity())
-                    .chatWith(USER_2)
+                    .chatWith(mUsers.get(position).email)
+                    .topicId(mTopicId)
+                    .topicTitle("Let ride!")
                     .start();
         }
 
         @Override
         public void onNewMessage(String userId, String topicId, int unreadCount) {
+            if (mUserAdapter != null) {
+                mUserAdapter.notifyDataSetChanged();
+            }
+        }
 
+        private class UserAdapter extends BaseAdapter {
+
+            @Override
+            public int getCount() {
+                return mUsers.size();
+            }
+
+            @Override
+            public User getItem(int position) {
+                return mUsers.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                UserHolder holder;
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getActivity())
+                            .inflate(R.layout.item_user, parent, false);
+                    holder = new UserHolder(convertView);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (UserHolder) convertView.getTag();
+                }
+
+                holder.loadUser(getItem(position));
+                return convertView;
+            }
+
+            private class UserHolder {
+
+                final TextView textUserName;
+                final TextView textUserEmail;
+                final TextView textMessageCount;
+
+                public UserHolder(View view) {
+                    textUserName = (TextView) view.findViewById(R.id.textView_user_name);
+                    textUserEmail = (TextView) view.findViewById(R.id.textView_user_email);
+                    textMessageCount = (TextView) view.findViewById(R.id.textView_message_count);
+                }
+
+                public void loadUser(User user) {
+                    textUserEmail.setText(user.email);
+                    textUserName.setText(user.name);
+                    textMessageCount.setText(PepperTalk.getInstance(getActivity()).getUnreadForTopicUser(user.email, mTopicId) + "");
+                }
+            }
         }
     }
 
