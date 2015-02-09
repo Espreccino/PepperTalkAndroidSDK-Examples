@@ -70,6 +70,6 @@ PepperTalk.getInstance(context)
                     });
 ```
 
-[1]: http://console.getpeppertalk.com/ "PepperTalk"
+[1]: https://console.getpeppertalk.com/ "PepperTalk"
 [2]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/build.gradle "build.gralde"
 [3]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/res/values/strings.xml#L6 "strings.xml"
