@@ -1,7 +1,15 @@
 PepperTalk Android SDK sample.
 -----------------------------
 
-Get your client id and client secret [here] [1]
+## Generate ClientID and Client Secret
+Generate Client ID & Client Secret to authenticate your application with PepperTalk. Follow these steps to generate Client ID & Client Secret:
+* Go to [PepperTalk Console](https://console.getpeppertalk.com/dashboard/signup)
+* Fill in the details and signup
+* Validate your email address by clicking on the link you get in your email inbox
+* Create a new application by selecting the "New Application" option from the menu on left hand side
+* Enter the Application Description
+* Optionally, select and enter push notification related information to support remote OS notifications
+* Find Client ID & Client Secret in the 'Clients' tab on your application page
 
 Update your client_id and client_secret in [strings.xml] [3]
 
