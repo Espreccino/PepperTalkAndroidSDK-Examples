@@ -2,18 +2,17 @@ package com.espreccino.peppertalk.sample;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.espreccino.peppertalk.PepperTalk;
@@ -30,7 +29,11 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
     static final String[] USERS = {"Jon:jon_android@getpeppertalk.com",
             "Ben:ben_android@getpeppertalk.com"};
 
+    static final String[] TOPICS = {"1001:Lets Ride!",
+            "1002:Lets Eat!"};
+
     static List<User> mUsers = new ArrayList<User>();
+    static List<Topic> mTopics = new ArrayList<Topic>();
     private final static String PREF_USER = "com.espreccino.peppertalk.sample_user_login";
     ProgressDialog mDialog;
 
@@ -40,13 +43,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         setContentView(R.layout.activity_main);
 
         mDialog = new ProgressDialog(this);
-        if (mUsers.size() != USERS.length) {
-            for (String usr : USERS) {
-                String[] split = usr.split(":");
-                mUsers.add(new User(split[0], split[1]));
-            }
-        }
-
+        addSampleData();
         if (savedInstanceState == null) {
             String userId = getRegisteredUser();
             Fragment fragment;
@@ -58,6 +55,22 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
                         .commit();
             } else {
                 loadUserFragment(userId);
+            }
+        }
+    }
+
+    private void addSampleData() {
+        if (mUsers.size() != USERS.length) {
+            for (String usr : USERS) {
+                String[] split = usr.split(":");
+                mUsers.add(new User(split[0], split[1]));
+            }
+        }
+
+        if (mTopics.size() != TOPICS.length) {
+            for (String topic : TOPICS) {
+                String[] split = topic.split(":");
+                mTopics.add(new Topic(split[0], split[1]));
             }
         }
     }
@@ -85,13 +98,15 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
     }
 
     private void loadUserFragment(String userId) {
-        getSupportActionBar().show();
-        setTitle("PepperTalk");
-        initPepperTalk(userId);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, UsersFragment.getInstance(getRegisteredUser()))
-                .commit();
+        if (userId != null) {
+            getSupportActionBar().show();
+            setTitle("PepperTalk");
+            initPepperTalk(userId);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, UsersFragment.getInstance(getRegisteredUser()))
+                    .commit();
+        }
     }
 
     private void showDialog(boolean show) {
@@ -122,19 +137,15 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
     /**
      * User fragment
      */
-    public static class UsersFragment extends ListFragment implements PepperTalk.MessageListener {
+    public static class UsersFragment extends Fragment {
 
-        private String mTopicId = "100010001";
-        UserAdapter mUserAdapter;
+        RecyclerView mRecyclerView;
+        ChatListAdapter mAdapter;
+        String mRegisteredUser;
 
         public static UsersFragment getInstance(String registeredUserId) {
             UsersFragment fragment = new UsersFragment();
-            for (User usr : mUsers) {
-                if (usr.email.equals(registeredUserId)) {
-                    mUsers.remove(usr);
-                    break;
-                }
-            }
+            fragment.mRegisteredUser = registeredUserId;
             return fragment;
         }
 
@@ -144,83 +155,101 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_users, container, false);
+            View view = inflater.inflate(R.layout.fragment_users, container, false);
+            loadRecyclerView(view);
+            return view;
+        }
+
+        private void loadRecyclerView(View view) {
+            mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler);
+            mAdapter = new ChatListAdapter();
+            LinearLayoutManager manager = new LinearLayoutManager(view.getContext(),
+                    LinearLayoutManager.VERTICAL, false);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setLayoutManager(manager);
+            mRecyclerView.setAdapter(mAdapter);
         }
 
         @Override
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            mUserAdapter = new UserAdapter();
-            getListView().setAdapter(mUserAdapter);
-            PepperTalk.getInstance(getActivity())
-                    .setMessageListener(this);
         }
 
-        @Override
-        public void onListItemClick(ListView l, View v, int position, long id) {
-            PepperTalk.getInstance(getActivity())
-                    .chatWithParticipant(mUsers.get(position).email)
-                    .topicId(mTopicId)
-                    .topicTitle("Let ride!")
-                    .start();
-        }
+        private class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.UserHolder>
+                implements PepperTalk.MessageListener {
 
-        @Override
-        public void onNewMessage(String userId, String topicId, int unreadCount) {
-            if (mUserAdapter != null) {
-                mUserAdapter.notifyDataSetChanged();
+            ChatListAdapter() {
+                PepperTalk.getInstance(getActivity())
+                        .setMessageListener(this);
             }
-        }
-
-        private class UserAdapter extends BaseAdapter {
 
             @Override
-            public int getCount() {
+            public UserHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(getActivity())
+                        .inflate(R.layout.item_user, parent, false);
+                return new UserHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(UserHolder holder, int position) {
+                holder.loadUser(mUsers.get(position));
+            }
+
+            @Override
+            public int getItemCount() {
                 return mUsers.size();
             }
 
             @Override
-            public User getItem(int position) {
-                return mUsers.get(position);
+            public void onNewMessage(String userId, String topicId, int unreadCount) {
+                notifyDataSetChanged();
             }
 
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
+            class UserHolder extends RecyclerView.ViewHolder {
 
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                UserHolder holder;
-                if (convertView == null) {
-                    convertView = LayoutInflater.from(getActivity())
-                            .inflate(R.layout.item_user, parent, false);
-                    holder = new UserHolder(convertView);
-                    convertView.setTag(holder);
-                } else {
-                    holder = (UserHolder) convertView.getTag();
-                }
-
-                holder.loadUser(getItem(position));
-                return convertView;
-            }
-
-            private class UserHolder {
-
+                final View view;
                 final TextView textUserName;
                 final TextView textUserEmail;
                 final TextView textMessageCount;
+                User user;
 
-                public UserHolder(View view) {
-                    textUserName = (TextView) view.findViewById(R.id.textView_user_name);
-                    textUserEmail = (TextView) view.findViewById(R.id.textView_user_email);
-                    textMessageCount = (TextView) view.findViewById(R.id.textView_message_count);
+                public UserHolder(View itemView) {
+                    super(itemView);
+                    itemView.setOnClickListener(new UserClickListener());
+                    view = itemView.findViewById(R.id.view_user);
+                    textUserName = (TextView) itemView.findViewById(R.id.textView_user_name);
+                    textUserEmail = (TextView) itemView.findViewById(R.id.textView_user_email);
+                    textMessageCount = (TextView) itemView.findViewById(R.id.textView_message_count);
                 }
 
                 public void loadUser(User user) {
+                    this.user = user;
+                    if (user.email.equals(mRegisteredUser)) {
+                        view.setBackgroundColor(Color.GREEN);
+                        textUserName.setTypeface(null, Typeface.BOLD_ITALIC);
+                    }
                     textUserEmail.setText(user.email);
                     textUserName.setText(user.name);
-                    textMessageCount.setText(PepperTalk.getInstance(getActivity()).getParticipantUnreadCount(user.email, mTopicId) + "");
+                    int count = PepperTalk.getInstance(getActivity())
+                            .getParticipantUnreadCount(user.email, mTopics.get(0).topicId);
+                    if (count > 0) {
+                        textMessageCount.setText(count + "");
+                    } else {
+                        textMessageCount.setText("");
+                    }
+                }
+
+                private class UserClickListener implements View.OnClickListener {
+                    @Override
+                    public void onClick(View v) {
+                        if (user != null) {
+                            PepperTalk.getInstance(getActivity())
+                                    .chatWithParticipant(user.email)
+                                    .topicId(mTopics.get(0).topicId)
+                                    .topicTitle(mTopics.get(0).topicTitle)
+                                    .start();
+                        }
+                    }
                 }
             }
         }
