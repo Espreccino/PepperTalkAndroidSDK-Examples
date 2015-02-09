@@ -78,6 +78,23 @@ PepperTalk.getInstance(context)
                     });
 ```
 
+---
+### Adding PepperTalk to eclipse project
+---
+Add the following to your pom.xml [(more info using m2eclipse)] [4]
+```xml
+<dependency>
+ <groupId>com.espreccino</groupId>
+ <artifactId>peppertalk</artifactId>
+ <version>0.4.3-SNAPSHOT</version>
+</dependency>
+````
+
+Download the latest aar [here] [5]
+
+
 [1]: https://console.getpeppertalk.com/ "PepperTalk"
 [2]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/build.gradle "build.gralde"
 [3]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/res/values/strings.xml#L6 "strings.xml"
+[4]: http://books.sonatype.com/m2eclipse-book/reference/dependencies.html "m2eclipse"
+[5]: https://oss.sonatype.org/content/repositories/snapshots/com/espreccino/peppertalk/ "PepperTalk SNAPSHOT"
