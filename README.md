@@ -22,7 +22,7 @@ Add PepperTalk to your application
 
 Gradle dependency (Sonatype Snapshot)
 ```xml
-    compile 'com.espreccino:peppertalk:0.4.3-SNAPSHOT'
+    compile 'com.espreccino:peppertalk:0.4.4-SNAPSHOT'
 ```
 
 [build.gradle] [2]
@@ -86,7 +86,7 @@ Add the following to your pom.xml [(more info using m2eclipse)] [4]
 <dependency>
  <groupId>com.espreccino</groupId>
  <artifactId>peppertalk</artifactId>
- <version>0.4.3-SNAPSHOT</version>
+ <version>0.4.4-SNAPSHOT</version>
 </dependency>
 ````
 
