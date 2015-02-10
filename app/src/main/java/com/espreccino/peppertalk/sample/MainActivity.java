@@ -35,14 +35,12 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
     static List<User> mUsers = new ArrayList<User>();
     static List<Topic> mTopics = new ArrayList<Topic>();
     private final static String PREF_USER = "com.espreccino.peppertalk.sample_user_login";
-    ProgressDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDialog = new ProgressDialog(this);
         addSampleData();
         if (savedInstanceState == null) {
             String userId = getRegisteredUser();
@@ -77,17 +75,14 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
 
     @Override
     public void onConnecting(int i) {
-        showDialog(true);
     }
 
     @Override
     public void onConnected() {
-        showDialog(false);
     }
 
     @Override
     public void onConnectionFailed(Throwable e) {
-        showDialog(false);
         e.printStackTrace();
     }
 
@@ -106,15 +101,6 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
                     .beginTransaction()
                     .replace(R.id.container, UsersFragment.getInstance(getRegisteredUser()))
                     .commit();
-        }
-    }
-
-    private void showDialog(boolean show) {
-        if (show) {
-            mDialog.setTitle("loading...");
-            mDialog.show();
-        } else {
-            mDialog.dismiss();
         }
     }
 
