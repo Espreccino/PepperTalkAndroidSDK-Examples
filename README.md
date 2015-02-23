@@ -20,27 +20,17 @@ Update your client_id and client_secret in [strings.xml] [3]
 
 Add PepperTalk to your application
 
-Gradle dependency (Sonatype Snapshot)
+Gradle dependency 
 ```xml
-    compile 'com.espreccino:peppertalk:0.4.4-SNAPSHOT'
+    compile 'com.espreccino:peppertalk:0.4.5'
 ```
 
 [build.gradle] [2]
 
 ```groovy
-buildscript {
-    repositories {
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots'}
-    }
-}
-...
-repositories {
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots'}
-}
-...
-
 dependencies {
-    compile 'com.espreccino:peppertalk:0.4.3-SNAPSHOT'
+    ...
+    compile 'com.espreccino:peppertalk:0.4.5'
 }
 
 ```
@@ -86,7 +76,7 @@ Add the following to your pom.xml [(more info using m2eclipse)] [4]
 <dependency>
  <groupId>com.espreccino</groupId>
  <artifactId>peppertalk</artifactId>
- <version>0.4.4-SNAPSHOT</version>
+ <version>0.4.5</version>
 </dependency>
 ````
 
