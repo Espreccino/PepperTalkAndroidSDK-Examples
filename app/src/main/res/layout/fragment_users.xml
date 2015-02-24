@@ -18,6 +18,31 @@
         android:textStyle="italic"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_update_user"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:text="@string/update_user"
+            style="?android:attr/buttonBarButtonStyle"
+            android:background="?attr/selectableItemBackground" />
+
+        <Button
+            android:id="@+id/button_create_group"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:text="@string/create_group"
+            style="?android:attr/buttonBarButtonStyle"
+            android:background="?attr/selectableItemBackground" />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
@@ -25,5 +50,6 @@
         android:padding="16dp"
         android:scrollbarStyle="outsideOverlay"
         android:clipToPadding="true" />
+
 </LinearLayout>
 

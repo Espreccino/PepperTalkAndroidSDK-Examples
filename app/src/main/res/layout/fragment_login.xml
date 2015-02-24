@@ -4,7 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_marginTop="16dp"
-    android:layout_marginBottom="16dp">
+    android:layout_marginBottom="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -16,7 +18,7 @@
         android:textSize="26sp"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:layout_width="match_parent"
@@ -28,14 +30,33 @@
         android:textSize="18sp"
         android:textColor="@android:color/black"
         android:textStyle="italic"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ListView
-        android:id="@android:id/list"
+    <EditText
+        android:id="@+id/editText_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="60dp"
+        android:inputType="textPersonName"
+        android:hint="@string/hint_name_login">
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editText_email"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:inputType="textEmailAddress"
+        android:hint="@string/hint_email_login" />
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/login"
         android:padding="16dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:clipToPadding="true"/>
+        android:background="?selectableItemBackground" />
+
 </LinearLayout>
 

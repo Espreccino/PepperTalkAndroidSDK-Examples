@@ -1,9 +1,6 @@
 package com.espreccino.peppertalk.sample;
 
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,12 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.espreccino.peppertalk.PepperTalk;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class MainActivity extends ActionBarActivity implements LoginFragment.LoginFragmentListener,
@@ -26,15 +25,16 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
 
     private final String TAG = "MainActivity.class";
 
-    static final String[] USERS = {"Jon:jon_android@getpeppertalk.com",
-            "Ben:ben_android@getpeppertalk.com"};
+    static final String[] USERS = {"Jon:j_android@getpeppertalk.com",
+            "Ben:b_android@getpeppertalk.com"};
 
-    static final String[] TOPICS = {"1001:Lets Ride!",
-            "1002:Lets Eat!"};
+    static final String[] TOPICS = {"10011:Lets Ride!",
+            "10022:Lets Eat!"};
 
     static List<User> mUsers = new ArrayList<User>();
     static List<Topic> mTopics = new ArrayList<Topic>();
     private final static String PREF_USER = "com.espreccino.peppertalk.sample_user_login";
+    private final static String PREF_USER_NAME = "com.espreccino.peppertalk.sample_user_name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
             Fragment fragment;
             if (userId == null) {
                 getSupportActionBar().hide();
-                fragment = LoginFragment.getInstance(mUsers);
+                fragment = LoginFragment.getInstance();
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.container, fragment)
                         .commit();
@@ -87,8 +87,9 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
     }
 
     @Override
-    public void onUserSelected(String userId) {
+    public void onLogin(String name, String userId) {
         registerUser(userId);
+        saveUserName(name);
         loadUserFragment(userId);
     }
 
@@ -128,6 +129,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         RecyclerView mRecyclerView;
         ChatListAdapter mAdapter;
         String mRegisteredUser;
+        Button mButtonUpdateUser, mButtonCreateGroup;
 
         public static UsersFragment getInstance(String registeredUserId) {
             UsersFragment fragment = new UsersFragment();
@@ -159,6 +161,31 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
         @Override
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
+            mButtonUpdateUser = (Button) view.findViewById(R.id.button_update_user);
+            mButtonCreateGroup = (Button) view.findViewById(R.id.button_create_group);
+
+            mButtonUpdateUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PepperTalk.getInstance(getActivity())
+                            .updateUser("Jon", null);
+                }
+            });
+
+            mButtonCreateGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String grpId = "grp:" + UUID.randomUUID();
+                    List<String> members = new ArrayList<String>();
+                    members.add("b_android@getpeppertalk.com");
+
+                    PepperTalk.getInstance(getActivity())
+                            .createGroup(grpId,
+                                    "Talk Group",
+                                    null,
+                                    members);
+                }
+            });
         }
 
         private class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.UserHolder>
@@ -210,10 +237,6 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
 
                 public void loadUser(User user) {
                     this.user = user;
-                    if (user.email.equals(mRegisteredUser)) {
-                        view.setBackgroundColor(Color.GREEN);
-                        textUserName.setTypeface(null, Typeface.BOLD_ITALIC);
-                    }
                     textUserEmail.setText(user.email);
                     textUserName.setText(user.name);
                     int count = PepperTalk.getInstance(getActivity())
@@ -257,6 +280,17 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
                 .edit()
                 .putString(PREF_USER, userId)
                 .apply();
+    }
+
+    private void saveUserName(String userName) {
+        getSharedPrefs()
+                .edit()
+                .putString(PREF_USER_NAME, userName)
+                .apply();
+    }
+
+    private String getUserName() {
+        return getSharedPrefs().getString(PREF_USER_NAME, null);
     }
 
     private SharedPreferences getSharedPrefs() {

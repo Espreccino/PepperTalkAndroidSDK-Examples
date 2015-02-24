@@ -1,38 +1,39 @@
 package com.espreccino.peppertalk.sample;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.List;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 
 /**
  * Created by imran on 08/02/15 3:32 PM in com.espreccino.peppertalk.sample.
  */
-public class LoginFragment extends ListFragment {
+public class LoginFragment extends Fragment {
 
-    private List<User> mUsers;
-
-    public static LoginFragment getInstance(List<User> users) {
+    public static LoginFragment getInstance() {
         LoginFragment fragment = new LoginFragment();
-        fragment.mUsers = users;
         return fragment;
     }
 
-    public LoginFragment(){}
+    public LoginFragment() {
+    }
 
     public interface LoginFragmentListener {
-        public void onUserSelected(String userId);
+        public void onLogin(String name, String userId);
     }
 
     LoginFragmentListener mLoginFragmentListener;
+    EditText mEditTextEmail;
+    EditText mEditTextName;
+    Button mButtonLogin;
 
     @Override
     public void onAttach(Activity activity) {
@@ -50,72 +51,86 @@ public class LoginFragment extends ListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mEditTextEmail = (EditText) view.findViewById(R.id.editText_email);
+        mEditTextName = (EditText) view.findViewById(R.id.editText_name);
+        mButtonLogin = (Button) view.findViewById(R.id.button_login);
 
-        UserAdapter adapter = new UserAdapter();
-        getListView().setAdapter(adapter);
+        mButtonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validate()) {
+                    login(mEditTextName.getText().toString(),
+                            mEditTextEmail.getText().toString());
+                }
+            }
+        });
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        if (mLoginFragmentListener != null) {
-            User user = (User) getListView().getAdapter().getItem(position);
-            mLoginFragmentListener.onUserSelected(user.email);
-        }
+    private void login(String name, String email) {
+        mLoginFragmentListener.onLogin(name, email);
+        setImeVisibility(mEditTextEmail, false);
     }
 
-    private class UserAdapter extends BaseAdapter {
-
-        UserAdapter() {
-        }
-
-        @Override
-        public int getCount() {
-            return mUsers.size();
-        }
-
-        @Override
-        public User getItem(int position) {
-            return mUsers.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            UserHolder holder;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getActivity())
-                        .inflate(R.layout.item_user, parent, false);
-                holder = new UserHolder(convertView);
-                convertView.setTag(holder);
-            } else {
-                holder = (UserHolder) convertView.getTag();
+    private boolean validate() {
+        if (TextUtils.isEmpty(mEditTextName.getText())) {
+            mEditTextName.setError("enter a name");
+            return false;
+        } else {
+            String name = mEditTextName.getText().toString();
+            if (null == name || name.equals("")) {
+                mEditTextName.setError("enter a name");
+                return false;
             }
-
-            holder.loadUser(getItem(position));
-            return convertView;
         }
 
-        private class UserHolder {
-
-            final TextView textUserName;
-            final TextView textUserEmail;
-            final TextView textMessageCount;
-
-            public UserHolder(View view) {
-                textUserName = (TextView) view.findViewById(R.id.textView_user_name);
-                textUserEmail = (TextView) view.findViewById(R.id.textView_user_email);
-                textMessageCount = (TextView) view.findViewById(R.id.textView_message_count);
+        if (TextUtils.isEmpty(mEditTextEmail.getText())) {
+            mEditTextEmail.setError("enter an email");
+            return false;
+        } else {
+            String email = mEditTextEmail.getText().toString();
+            if (null == email || email.equals("")) {
+                mEditTextEmail.setError("enter an email");
+                return false;
             }
+        }
+        return true;
+    }
 
-            public void loadUser(User user) {
-                textUserEmail.setText(user.email);
-                textUserName.setText(user.name);
-                textMessageCount.setVisibility(View.INVISIBLE);
+    public static void setImeVisibility(View view, final boolean visible) {
+        if (view == null) {
+            return;
+        }
+        ImeRunnable runnable = new ImeRunnable(view);
+        if (visible) {
+            view.post(runnable);
+        } else {
+            view.removeCallbacks(runnable);
+            InputMethodManager imm = (InputMethodManager) view.getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
     }
+
+    private static class ImeRunnable implements Runnable {
+
+        View view;
+
+        public ImeRunnable(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void run() {
+            InputMethodManager imm = (InputMethodManager) view.getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            if (imm != null) {
+                imm.showSoftInput(view, 0);
+            }
+        }
+    }
+
 }
