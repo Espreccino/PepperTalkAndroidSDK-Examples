@@ -36,7 +36,7 @@ dependencies {
 
 Add ContentProvider to AndroidManifest.xml (Unique authority)
 
-```xml${applicationId}``` will automatically load your application package name from build.gradle. For different flavours add a suffix.
+<b>${applicationId}</b> will automatically load your application package name from build.gradle. For different flavours add a suffix.
 ```xml
     <provider
             android:name="com.espreccino.peppertalk.io.TalkProvider"
