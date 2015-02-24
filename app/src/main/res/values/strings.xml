@@ -1,12 +1,18 @@
 <resources>
     <string name="app_name">PepperTalkSample</string>
-    <string name="pepper_talk">PepperTalk</string>
-    <string name="choose_login">Pick a user to login</string>
-    <string name="choose_user">Pick a user to start a conversation</string>
+    <string name="pepper_talk">peppertalk</string>
+    <string name="choose_login">pick a user to login</string>
+    <string name="choose_user">pick a user to start a conversation</string>
+    <string name="hint_email_login">email</string>
+    <string name="hint_name_login">name</string>
+    <string name="login">login</string>
+
+    <string name="create_group">create group</string>
+    <string name="update_user">update user</string>
 
     <!-- Uncomment the attrs below and
         Add your client Id and client secret
-        visit http://console.getpeppertalk.com/ for more info-->
+        visit https://console.getpeppertalk.com/ for more info-->
 
     <!--
     <string name="client_id">CLIENT_ID</string>
