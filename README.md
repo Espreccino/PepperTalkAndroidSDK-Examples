@@ -22,7 +22,7 @@ Add PepperTalk to your application
 
 Gradle dependency 
 ```xml
-    compile 'com.espreccino:peppertalk:0.4.5'
+    compile 'com.espreccino:peppertalk:0.4.6'
 ```
 
 [build.gradle] [2]
@@ -30,9 +30,21 @@ Gradle dependency
 ```groovy
 dependencies {
     ...
-    compile 'com.espreccino:peppertalk:0.4.5'
+    compile 'com.espreccino:peppertalk:0.4.6'
 }
+```
 
+Add ContentProvider to AndroidManifest.xml (Unique authority)
+${applicationId} will automatically load your application package name. For different flavours add a suffix.
+```xml
+    <provider
+            android:name="com.espreccino.peppertalk.io.TalkProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:enabled="true"
+            android:label="PepperTalk"
+            android:syncable="true"
+            tools:replace="android:authorities"/>
 ```
 Initialize PepperTalk
 
@@ -76,7 +88,7 @@ Add the following to your pom.xml [(more info using m2eclipse)] [4]
 <dependency>
  <groupId>com.espreccino</groupId>
  <artifactId>peppertalk</artifactId>
- <version>0.4.5</version>
+ <version>0.4.6</version>
 </dependency>
 ````
 
