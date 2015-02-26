@@ -100,4 +100,4 @@ Download the latest aar [here] [5]
 [2]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/build.gradle "build.gralde"
 [3]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/res/values/strings.xml#L6 "strings.xml"
 [4]: http://books.sonatype.com/m2eclipse-book/reference/dependencies.html "m2eclipse"
-[5]: https://oss.sonatype.org/content/repositories/snapshots/com/espreccino/peppertalk/ "PepperTalk SNAPSHOT"
+[5]: https://search.maven.org/#browse%7C-793624875 "PepperTalk SNAPSHOT"
