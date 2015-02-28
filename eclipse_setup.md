@@ -111,4 +111,4 @@ Now add the libraries and configure the manifest
 * If you are trying out the sample app remember to add you client\_id and client\_secret to res/values/strings.xml
 
 ## Done
-Thats it you should be all set and ready to get chatting with Pepper Talk. [Let us know](info@espreccino.com) in case you have any issues. Happy chatting!
+Thats it you should be all set and ready to get chatting with Pepper Talk. [Let us know](mailto:info@espreccino.com) in case you have any issues. Happy chatting!
