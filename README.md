@@ -95,6 +95,7 @@ Add the following to your pom.xml [(more info using m2eclipse)] [4]
 
 Download the latest aar [here] [5]
 
+Detailed instructions on setting up Eclipse with ADT is [here](eclipse_setup.md)
 
 [1]: https://console.getpeppertalk.com/ "PepperTalk"
 [2]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/build.gradle "build.gralde"
