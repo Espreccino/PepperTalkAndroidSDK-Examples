@@ -22,7 +22,7 @@ Add PepperTalk to your application
 
 Gradle dependency 
 ```xml
-    compile 'com.espreccino:peppertalk:0.4.6'
+    compile 'com.espreccino:peppertalk:0.4.8'
 ```
 
 [build.gradle] [2]
@@ -30,7 +30,7 @@ Gradle dependency
 ```groovy
 dependencies {
     ...
-    compile 'com.espreccino:peppertalk:0.4.6'
+    compile 'com.espreccino:peppertalk:0.4.8'
 }
 ```
 
@@ -73,7 +73,7 @@ Message Listener
 
 ```java
 PepperTalk.getInstance(context)
-                    .setMessageListener(new PepperTalk.MessageListener() {
+                    .registerMessageListener(new PepperTalk.MessageListener() {
                         @Override
                         public void onNewMessage(String userId, String topicId, int unreadCount) {
                             //Update unread count in UI
@@ -89,7 +89,7 @@ Add the following to your pom.xml [(more info using m2eclipse)] [4]
 <dependency>
  <groupId>com.espreccino</groupId>
  <artifactId>peppertalk</artifactId>
- <version>0.4.6</version>
+ <version>0.4.8</version>
 </dependency>
 ````
 
