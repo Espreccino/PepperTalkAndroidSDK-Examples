@@ -81,6 +81,13 @@ PepperTalk.getInstance(context)
                     });
 ```
 
+Register GCM ID with PepperTalk
+```java
+// Use Google Play and Client services to get Registration ID.
+
+PepperTalk.getInstance(context).registerGcm(regId);
+
+```
 ---
 ### Adding PepperTalk to eclipse project
 ---
