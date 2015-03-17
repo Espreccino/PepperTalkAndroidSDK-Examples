@@ -7,8 +7,14 @@
     <string name="hint_name_login">name</string>
     <string name="login">login</string>
 
-    <string name="create_group">create group</string>
-    <string name="update_user">update user</string>
+    <string name="create_group">Create Group</string>
+    <string name="update_user">Update User</string>
+    <string name="update_group">Update Group</string>
+    <string name="delete_group">Delete Group</string>
+    <string name="leave_group">Leave Group</string>
+    <string name="join_group">Join Group</string>
+    <string name="chat_with">Chat with</string>
+    <string name="send_custom">Send Custom</string>
 
     <!-- Uncomment the attrs below and
         Add your client Id and client secret

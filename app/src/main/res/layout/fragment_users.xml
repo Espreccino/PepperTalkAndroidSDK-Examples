@@ -33,14 +33,23 @@
             android:background="?attr/selectableItemBackground" />
 
         <Button
-            android:id="@+id/button_create_group"
+            android:id="@+id/button_chat_with_user"
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="match_parent"
-            android:text="@string/create_group"
+            android:text="@string/chat_with"
             style="?android:attr/buttonBarButtonStyle"
             android:background="?attr/selectableItemBackground" />
 
+        <Button
+            android:id="@+id/button_send_plugin"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:text="@string/send_custom"
+            style="?android:attr/buttonBarButtonStyle"
+            android:background="?attr/selectableItemBackground"
+            android:visibility="invisible"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
