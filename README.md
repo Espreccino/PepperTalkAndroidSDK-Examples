@@ -82,12 +82,29 @@ PepperTalk.getInstance(context)
 ```
 
 Register GCM ID with PepperTalk
+----
 ```java
 // Use Google Play and Client services to get Registration ID.
 
 PepperTalk.getInstance(context).registerGcm(regId);
 
 ```
+
+Check is notification Intent is from PepperTalk
+----
+```java
+PepperTalk.getInstance(context).isNotificationFromPepperTalk(intent)
+```
+
+Handle PepperTalk GCM notification
+----
+```java
+
+PepperTalk.getInstance(context).handleNotification(intent,
+                    R.drawable.ic_stat_notification,
+                    notificationSoundUri)
+```
+
 ---
 ### Adding PepperTalk to eclipse project
 ---
