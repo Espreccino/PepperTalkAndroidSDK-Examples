@@ -22,17 +22,10 @@ Add PepperTalk to your application
 
 Gradle dependency 
 ```xml
-    compile 'com.espreccino:peppertalk:0.4.8'
+    compile 'com.espreccino:peppertalk:0.4.9'
 ```
 
 [build.gradle] [2]
-
-```groovy
-dependencies {
-    ...
-    compile 'com.espreccino:peppertalk:0.4.8'
-}
-```
 
 Add ContentProvider to AndroidManifest.xml (Unique authority)
 
@@ -82,7 +75,7 @@ PepperTalk.getInstance(context)
 ```
 
 Register GCM ID with PepperTalk
-----
+
 ```java
 // Use Google Play and Client services to get Registration ID.
 
@@ -93,7 +86,7 @@ PepperTalk.getInstance(context).registerGcm(regId);
 Check is notification Intent is from PepperTalk
 ----
 ```java
-PepperTalk.getInstance(context).isNotificationFromPepperTalk(intent)
+PepperTalk.getInstance(context).isNotificationFromPepperTalk(intent);
 ```
 
 Handle PepperTalk GCM notification
@@ -102,7 +95,7 @@ Handle PepperTalk GCM notification
 
 PepperTalk.getInstance(context).handleNotification(intent,
                     R.drawable.ic_stat_notification,
-                    notificationSoundUri)
+                    notificationSoundUri);
 ```
 
 ---
@@ -113,7 +106,7 @@ Add the following to your pom.xml [(more info using m2eclipse)] [4]
 <dependency>
  <groupId>com.espreccino</groupId>
  <artifactId>peppertalk</artifactId>
- <version>0.4.8</version>
+ <version>0.4.9</version>
 </dependency>
 ````
 
