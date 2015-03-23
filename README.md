@@ -74,7 +74,7 @@ PepperTalk.getInstance(context)
                     });
 ```
 
-Register GCM ID with PepperTalk
+### Register GCM ID with PepperTalk
 
 ```java
 // Use Google Play and Client services to get Registration ID.
@@ -83,20 +83,22 @@ PepperTalk.getInstance(context).registerGcm(regId);
 
 ```
 
-Check is notification Intent is from PepperTalk
-----
+### Check is notification Intent is from PepperTalk [Code] [6]
+
 ```java
 PepperTalk.getInstance(context).isNotificationFromPepperTalk(intent);
 ```
 
-Handle PepperTalk GCM notification
-----
+### Handle PepperTalk GCM notification [Code] [7]
+
 ```java
 
 PepperTalk.getInstance(context).handleNotification(intent,
                     R.drawable.ic_stat_notification,
                     notificationSoundUri);
 ```
+
+[Adding GCM service to manifest] [8]
 
 ---
 ### Adding PepperTalk to eclipse project
@@ -119,3 +121,6 @@ Detailed instructions on setting up Eclipse with ADT is [here](eclipse_setup.md)
 [3]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/res/values/strings.xml#L6 "strings.xml"
 [4]: http://books.sonatype.com/m2eclipse-book/reference/dependencies.html "m2eclipse"
 [5]: https://search.maven.org/#browse%7C-793624875 "PepperTalk SNAPSHOT"
+[6]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/java/com/espreccino/peppertalk/sample/gcm/GcmIntentService.java#L30
+[7]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/java/com/espreccino/peppertalk/sample/gcm/GcmIntentService.java#L32
+[8]: https://github.com/Espreccino/PepperTalkAndroidSDK-Examples/blob/master/app/src/main/AndroidManifest.xml#L24
