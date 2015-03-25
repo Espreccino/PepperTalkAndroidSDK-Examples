@@ -22,7 +22,7 @@ Add PepperTalk to your application
 
 Gradle dependency 
 ```xml
-    compile 'com.espreccino:peppertalk:0.4.9'
+    compile 'com.espreccino:peppertalk:0.4.10'
 ```
 
 [build.gradle] [2]
@@ -108,7 +108,7 @@ Add the following to your pom.xml [(more info using m2eclipse)] [4]
 <dependency>
  <groupId>com.espreccino</groupId>
  <artifactId>peppertalk</artifactId>
- <version>0.4.9</version>
+ <version>0.4.10</version>
 </dependency>
 ````
 
