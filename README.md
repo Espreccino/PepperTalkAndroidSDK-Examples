@@ -48,7 +48,7 @@ Initialize PepperTalk
                         clientSecret,
                         userId)
                 .inAppNotificationsEnabled(true) // Enable in app notification
-                .notificationStatIcon(android.R.drawable.stat_notify_chat) // notification stat icon
+                .notificationStatIcon(R.drawable.ic_stat_notification) // notification stat icon
                 .connect();
 ```
 
