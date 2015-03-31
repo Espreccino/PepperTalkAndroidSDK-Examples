@@ -22,7 +22,7 @@ Add PepperTalk to your application
 
 Gradle dependency 
 ```xml
-    compile 'com.espreccino:peppertalk:0.4.10'
+    compile 'com.espreccino:peppertalk:0.4.12'
 ```
 
 [build.gradle] [2]
@@ -47,6 +47,8 @@ Initialize PepperTalk
                 .init(clientId,
                         clientSecret,
                         userId)
+                .inAppNotificationsEnabled(true) // Enable in app notification
+                .notificationStatIcon(android.R.drawable.stat_notify_chat) // notification stat icon
                 .connect();
 ```
 
@@ -108,7 +110,7 @@ Add the following to your pom.xml [(more info using m2eclipse)] [4]
 <dependency>
  <groupId>com.espreccino</groupId>
  <artifactId>peppertalk</artifactId>
- <version>0.4.10</version>
+ <version>0.4.12</version>
 </dependency>
 ````
 

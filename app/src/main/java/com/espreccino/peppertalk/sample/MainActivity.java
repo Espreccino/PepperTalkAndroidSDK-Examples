@@ -20,14 +20,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.espreccino.peppertalk.JSONCallback;
 import com.espreccino.peppertalk.PepperTalk;
 import com.espreccino.peppertalk.PepperTalkError;
 import com.espreccino.peppertalk.UserCallback;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,8 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class MainActivity extends ActionBarActivity implements LoginFragment.LoginFragmentListener,
-        PepperTalk.ConnectionListener {
+public class MainActivity extends ActionBarActivity implements LoginFragment.LoginFragmentListener {
 
     private final String TAG = "MainActivity.class";
 
@@ -102,19 +97,6 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
     }
 
     @Override
-    public void onConnecting(int i) {
-    }
-
-    @Override
-    public void onConnected() {
-    }
-
-    @Override
-    public void onConnectionFailed(PepperTalkError error) {
-        error.printStackTrace();
-    }
-
-    @Override
     public void onLogin(String name, String userId) {
         registerUser(userId);
         saveUserName(name);
@@ -142,14 +124,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
      * @param userId
      */
     private void initPepperTalk(String userId) {
-        String clientId = getString(R.string.client_id);
-        String clientSecret = getString(R.string.client_secret);
-        PepperTalk.getInstance(this)
-                .init(clientId,
-                        clientSecret,
-                        userId)
-                .connectionListener(this)
-                .connect();
+        ((PepperTalkSample) getApplication()).initPepperTalk(userId);
     }
 
     private void showToast(String text) {
