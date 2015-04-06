@@ -124,7 +124,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
      * @param userId
      */
     private void initPepperTalk(String userId) {
-        ((PepperTalkSample) getApplication()).initPepperTalk(userId);
+        ((PepperTalkSample) getApplicationContext()).initPepperTalk(userId);
     }
 
     private void showToast(String text) {
