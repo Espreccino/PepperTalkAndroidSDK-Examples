@@ -22,7 +22,7 @@ Add PepperTalk to your application
 
 Gradle dependency 
 ```xml
-    compile 'com.espreccino:peppertalk:0.4.14'
+    compile 'com.espreccino:peppertalk:0.4.15'
 ```
 
 [build.gradle] [2]
@@ -47,9 +47,22 @@ Initialize PepperTalk
                 .init(clientId,
                         clientSecret,
                         userId)
-                .inAppNotificationsEnabled(true) // Enable in app notification
-                .notificationStatIcon(R.drawable.ic_stat_notification) // notification stat icon
                 .connect();
+```
+
+InApp Notifications
+
+```java
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        PepperTalk.NotificationBuilder builder = new PepperTalk.NotificationBuilder();
+        builder.notificationStatIcon(R.drawable.ic_stat_notification);
+        builder.soundUri(soundUri);
+        builder.taskStackBuilder(TaskStackBuilder.create(getApplicationContext())
+                .addNextIntentWithParentStack(intent));
+
+        PepperTalk.getInstance(this).enabledInAppNotifications(builder);
 ```
 
 Start Conversation
@@ -67,7 +80,7 @@ Message Listener
 - Unread count
 
 ```java
-PepperTalk.getInstance(context)
+        PepperTalk.getInstance(context)
                     .registerMessageListener(new PepperTalk.MessageListener() {
                         @Override
                         public void onNewMessage(String userId, String topicId, int unreadCount) {
@@ -88,16 +101,22 @@ PepperTalk.getInstance(context).registerGcm(regId);
 ### Check is notification Intent is from PepperTalk [Code] [6]
 
 ```java
-PepperTalk.getInstance(context).isNotificationFromPepperTalk(intent);
+    PepperTalk.getInstance(context).isNotificationFromPepperTalk(intent);
 ```
 
 ### Handle PepperTalk GCM notification [Code] [7]
 
 ```java
 
-PepperTalk.getInstance(context).handleNotification(intent,
-                    R.drawable.ic_stat_notification,
-                    notificationSoundUri);
+      Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+      PepperTalk.NotificationBuilder builder = new PepperTalk.NotificationBuilder();
+      builder.notificationStatIcon(R.drawable.ic_stat_notification);
+      builder.soundUri(soundUri);
+      Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+      builder.taskStackBuilder(TaskStackBuilder.create(getApplicationContext())
+                    .addNextIntentWithParentStack(intent1));
+
+      PepperTalk.getInstance(this).handleNotification(intent, builder);
 ```
 
 [Adding GCM service to manifest] [8]
@@ -110,7 +129,7 @@ Add the following to your pom.xml [(more info using m2eclipse)] [4]
 <dependency>
  <groupId>com.espreccino</groupId>
  <artifactId>peppertalk</artifactId>
- <version>0.4.14</version>
+ <version>0.4.15</version>
 </dependency>
 ````
 
