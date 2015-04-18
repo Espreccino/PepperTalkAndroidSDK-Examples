@@ -2,11 +2,15 @@ package com.espreccino.peppertalk.sample;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -125,6 +129,17 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
      */
     private void initPepperTalk(String userId) {
         ((PepperTalkSample) getApplicationContext()).initPepperTalk(userId);
+        Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        PepperTalk.NotificationBuilder builder = new PepperTalk.NotificationBuilder();
+        builder.notificationStatIcon(R.mipmap.ic_launcher);
+        builder.soundUri(soundUri);
+        builder.taskStackBuilder(TaskStackBuilder.create(getApplicationContext())
+                .addNextIntentWithParentStack(intent1));
+
+        PepperTalk.getInstance(this).enabledInAppNotifications(builder);
     }
 
     private void showToast(String text) {

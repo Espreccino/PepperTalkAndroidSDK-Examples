@@ -23,8 +23,6 @@ public class PepperTalkSample extends Application implements
                 .init(clientId,
                         clientSecret,
                         userId)
-                .inAppNotificationsEnabled(true) // Enable In app notifications
-                .notificationStatIcon(android.R.drawable.stat_notify_chat) // Notification icons
                 .connectionListener(this)
                 .connect();
     }

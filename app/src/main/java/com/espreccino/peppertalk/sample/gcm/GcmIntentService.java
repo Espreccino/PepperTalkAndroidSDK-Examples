@@ -4,9 +4,11 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.espreccino.peppertalk.PepperTalk;
+import com.espreccino.peppertalk.sample.MainActivity;
 import com.espreccino.peppertalk.sample.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -29,13 +31,17 @@ public class GcmIntentService extends IntentService {
 
         if (PepperTalk.getInstance(this).isNotificationFromPepperTalk(intent)) {
             Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            PepperTalk.getInstance(this).handleNotification(intent,
-                    R.drawable.ic_stat_notification,
-                    soundUri);
+            PepperTalk.NotificationBuilder builder = new PepperTalk.NotificationBuilder();
+            builder.notificationStatIcon(R.mipmap.ic_launcher);
+            builder.soundUri(soundUri);
+            Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+            builder.taskStackBuilder(TaskStackBuilder.create(getApplicationContext())
+                    .addNextIntentWithParentStack(intent1));
+
+            PepperTalk.getInstance(this).handleNotification(intent, builder);
         } else {
             //Handle your own notification
         }
-
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 }
