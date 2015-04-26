@@ -5,11 +5,11 @@ PepperTalk Android SDK sample.
 
 _PepperTalk Setup_
 
-PepperTalk [Setup][_peppertalk_setup] on web console, get your CLIENT_ID and CLIENT_SECRET.
+   * PepperTalk [Setup][_peppertalk_setup] on web console, get your CLIENT_ID and CLIENT_SECRET.
     
 _PepperTalk Setup for Android Application_
 
-PepperTalk [Android download][_peppertalk_g_s]
+   * PepperTalk [Android download][_peppertalk_g_s]
     
 ###### Update your client_id and client_secret in [strings.xml] [_sample] for this sample
 
