@@ -3,15 +3,15 @@ PepperTalk Android SDK sample.
 
 [PepperTalk][_getpeppertalk] is in app chat messaging and communication solution.
 
-__PepperTalk Setup__ 
+##### PepperTalk Setup 
 
-    PepperTalk [Setup][_peppertalk_setup] on web console, get your CLIENT_ID and CLIENT_SECRET.
+PepperTalk [Setup][_peppertalk_setup] on web console, get your CLIENT_ID and CLIENT_SECRET.
     
-__PepperTalk Setup for Android Application__
+##### PepperTalk Setup for Android Application
 
-    PepperTalk [Android download][_peppertalk_g_s]
+PepperTalk [Android download][_peppertalk_g_s]
     
-#### Update your client_id and client_secret in [strings.xml] [_sample] for this sample
+##### Update your client_id and client_secret in [strings.xml] [_sample] for this sample
 
 ```xml
     <string name="client_id">CLIENT_ID</string>
