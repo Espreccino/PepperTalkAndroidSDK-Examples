@@ -27,7 +27,7 @@ public class LoginFragment extends Fragment {
     }
 
     public interface LoginFragmentListener {
-        public void onLogin(String name, String userId);
+        void onLogin(String name, String userId);
     }
 
     LoginFragmentListener mLoginFragmentListener;

@@ -22,10 +22,16 @@
             </intent-filter>
         </activity>
 
-        <!-- Google GCM Services -->
+        <!-- Google Services -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <!-- Google Android API KEY for Places and locations-->
+        <!--
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="GOOGLE_ANDROID_API_KEY"/>-->
 
         <receiver
             android:name=".gcm.GcmBroadcastReceiver"
@@ -51,7 +57,7 @@
             android:enabled="true"
             android:label="PepperTalk"
             android:syncable="true"
-            tools:replace="android:authorities"/>
+            tools:replace="android:authorities" />
     </application>
 
 </manifest>

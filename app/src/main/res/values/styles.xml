@@ -1,8 +1,31 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+
+        <!-- For API versions below 21 Compat-->
+        <item name="colorPrimaryDark" tools:ignore="NewApi">@color/primary_dark</item>
+        <item name="colorPrimary" tools:ignore="NewApi">@color/primary</item>
+        <item name="colorAccent" tools:ignore="NewApi">@color/accent</item>
+
+        <!-- For API versions above 21-->
+        <item name="android:colorPrimaryDark" tools:ignore="NewApi">@color/primary_dark</item>
+        <item name="android:colorPrimary" tools:ignore="NewApi">@color/primary</item>
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/accent</item>
     </style>
 
+    <style name="Theme.Custom" parent="Theme.PepperTalk">
+
+        <!-- For API versions below 21 Compat-->
+        <item name="colorPrimaryDark" tools:ignore="NewApi">@color/primary_dark</item>
+        <item name="colorPrimary" tools:ignore="NewApi">@color/primary</item>
+        <item name="colorAccent" tools:ignore="NewApi">@color/accent</item>
+
+        <!-- For API versions above 21-->
+        <item name="android:colorPrimaryDark" tools:ignore="NewApi">@color/primary_dark</item>
+        <item name="android:colorPrimary" tools:ignore="NewApi">@color/primary</item>
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/accent</item>
+
+    </style>
 </resources>

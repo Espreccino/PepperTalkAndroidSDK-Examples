@@ -13,6 +13,7 @@ import com.espreccino.peppertalk.sample.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 /**
+ * Sample GCM Intent Service to handle GCM notifications
  */
 public class GcmIntentService extends IntentService {
 
@@ -30,15 +31,17 @@ public class GcmIntentService extends IntentService {
         String messageType = GoogleCloudMessaging.getInstance(this).getMessageType(intent);
 
         if (PepperTalk.getInstance(this).isNotificationFromPepperTalk(intent)) {
+
             Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             PepperTalk.NotificationBuilder builder = new PepperTalk.NotificationBuilder();
-            builder.notificationStatIcon(R.mipmap.ic_launcher);
+            builder.notificationStatIcon(R.drawable.ic_stat_notification);
             builder.soundUri(soundUri);
             Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
             builder.taskStackBuilder(TaskStackBuilder.create(getApplicationContext())
                     .addNextIntentWithParentStack(intent1));
 
-            PepperTalk.getInstance(this).handleNotification(intent, builder);
+            PepperTalk.getInstance(this)
+                    .handleNotification(intent, builder);
         } else {
             //Handle your own notification
         }

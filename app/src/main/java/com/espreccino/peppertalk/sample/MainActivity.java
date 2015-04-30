@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,8 +36,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
-public class MainActivity extends ActionBarActivity implements LoginFragment.LoginFragmentListener {
+/**
+ * MainActivity
+ * Entry to the application after Login
+ */
+public class MainActivity extends AppCompatActivity implements LoginFragment.LoginFragmentListener {
 
     private final String TAG = "MainActivity.class";
 
@@ -128,18 +132,8 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.Log
      * @param userId
      */
     private void initPepperTalk(String userId) {
-        ((PepperTalkSample) getApplicationContext()).initPepperTalk(userId);
-        Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        PepperTalk.NotificationBuilder builder = new PepperTalk.NotificationBuilder();
-        builder.notificationStatIcon(R.mipmap.ic_launcher);
-        builder.soundUri(soundUri);
-        builder.taskStackBuilder(TaskStackBuilder.create(getApplicationContext())
-                .addNextIntentWithParentStack(intent1));
-
-        PepperTalk.getInstance(this).enabledInAppNotifications(builder);
+        ((PepperTalkSample) getApplicationContext())
+                .initPepperTalk(userId);
     }
 
     private void showToast(String text) {

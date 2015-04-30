@@ -1,7 +1,7 @@
 package com.espreccino.peppertalk.sample;
 
 /**
- * Created by imran on 09/02/15 5:31 AM in com.espreccino.sample.
+ * Sample topic object
  */
 public class Topic {
     String topicId;
