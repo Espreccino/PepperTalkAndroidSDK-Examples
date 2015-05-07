@@ -1,6 +1,8 @@
 PepperTalk Android SDK sample.
 -----------------------------
 
+[![Join the chat at https://gitter.im/Espreccino/PepperTalkAndroidSDK-Examples](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Espreccino/PepperTalkAndroidSDK-Examples?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [PepperTalk][_getpeppertalk] is in app chat messaging and communication solution.
 
 _PepperTalk Setup_
