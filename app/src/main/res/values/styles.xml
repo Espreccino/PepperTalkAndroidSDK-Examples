@@ -27,5 +27,7 @@
         <item name="android:colorPrimary" tools:ignore="NewApi">@color/primary</item>
         <item name="android:colorAccent" tools:ignore="NewApi">@color/accent</item>
 
+        <item name="android:windowEnterAnimation">@anim/abc_fade_out</item>
+        <item name="android:windowExitAnimation">@anim/abc_fade_in</item>
     </style>
 </resources>
