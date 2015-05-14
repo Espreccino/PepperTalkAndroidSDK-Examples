@@ -3,6 +3,8 @@ PepperTalk Android SDK sample.
 
 [PepperTalk][_getpeppertalk] is in app chat messaging and communication solution.
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Espreccino/PepperTalkAndroidSDK-Examples?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
+
 _PepperTalk Setup_
 
    * PepperTalk [Setup][_peppertalk_setup] on web console, get your CLIENT_ID and CLIENT_SECRET.
