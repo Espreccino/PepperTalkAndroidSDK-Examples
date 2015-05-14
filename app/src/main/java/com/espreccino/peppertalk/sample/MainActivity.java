@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
