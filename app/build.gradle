@@ -22,6 +22,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.espreccino:peppertalk:0.5.4'
+    compile 'com.espreccino:peppertalk:0.5.5'
     compile 'com.google.android.gms:play-services:7.3.0'
 }
