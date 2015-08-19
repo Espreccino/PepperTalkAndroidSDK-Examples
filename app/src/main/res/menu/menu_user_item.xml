@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_block"
+        android:title="@string/block" />
+    <item
+        android:id="@+id/action_unblock"
+        android:title="@string/unblock"
+        android:visible="false"/>
+    <item
+        android:id="@+id/action_mute"
+        android:title="@string/mute" />
+    <item
+        android:id="@+id/action_un_mute"
+        android:title="@string/un_mute"
+        android:visible="false"/>
+</menu>

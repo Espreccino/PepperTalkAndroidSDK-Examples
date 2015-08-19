@@ -15,6 +15,17 @@
     <string name="join_group">Join Group</string>
     <string name="chat_with">Chat with</string>
     <string name="send_custom">Send Custom</string>
+    <string name="pt_switch_user">Switch User</string>
+    <string name="pt_user_info">User Info</string>
+    <string name="pt_group_info">Group Info</string>
+    <string name="block">Block</string>
+    <string name="unblock">Unblock</string>
+    <string name="mute">Mute</string>
+    <string name="un_mute">Un Mute</string>
+    <string name="title_activity_chat">ChatActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
     <!-- Uncomment the attrs below and
         Add your client Id and client secret

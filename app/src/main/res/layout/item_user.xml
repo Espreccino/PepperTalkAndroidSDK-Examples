@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:padding="4dp"
             tools:text="p@p.com"
-            android:singleLine="true"/>
+            android:singleLine="true" />
 
     </LinearLayout>
 
@@ -48,4 +48,15 @@
         android:layout_gravity="center_vertical"
         android:padding="4dp"
         tools:text="0" />
+
+    <ImageButton
+        android:id="@+id/imageButton_more"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+        android:background="?attr/selectableItemBackground"
+        android:tint="@color/pt_gray"
+        tools:ignore="contentDescription" />
+
 </LinearLayout>

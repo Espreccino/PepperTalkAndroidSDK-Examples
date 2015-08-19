@@ -1,14 +1,22 @@
 package com.espreccino.peppertalk.sample;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Base64;
 import android.util.Log;
 
 import com.espreccino.peppertalk.PepperTalk;
 import com.espreccino.peppertalk.PepperTalkError;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * PepperTalk Sample Application
@@ -61,12 +69,12 @@ public class PepperTalkSample extends Application implements
 
     @Override
     public void onConnecting(int i) {
-        Log.d(TAG, "Connection status " + i);
+        Log.i(TAG, "Connection status " + i);
     }
 
     @Override
     public void onConnected() {
-        Log.d(TAG, "Connected");
+        Log.i(TAG, "Connected");
     }
 
     @Override
