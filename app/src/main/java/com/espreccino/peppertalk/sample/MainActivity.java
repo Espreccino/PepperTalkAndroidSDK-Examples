@@ -169,53 +169,13 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 mUsersFragment = UsersFragment.getInstance(getRegisteredUser(), getUserName());
             }
             mUsersFragment.loadDataFromPrefs(getSharedPrefs());
-            initPepperTalk(userId);
+            ((PepperTalkSample) getApplicationContext()).initPepperTalk(userId);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.container, mUsersFragment)
                     .commit();
             //dumpConversations();
         }
-    }
-
-    /**
-     * Add client_id and client_secret in strings.xml
-     *
-     * @param userId
-     */
-    private void initPepperTalk(String userId) {
-        String clientId = getString(R.string.client_id);
-        String clientSecret = getString(R.string.client_secret);
-        PepperTalk.getInstance(this)
-                .init(clientId,
-                        clientSecret,
-                        userId)
-                .connectionListener(this)
-                .connect();
-
-        PepperTalk.getInstance(this)
-                .getUIPreferences()
-                .enableImages(true)
-                .enableLocations(true)
-                .set();
-
-        PepperTalk.getInstance(this).registerCustomDataListener(new PepperTalk.CustomDataListener() {
-            @Override
-            public void onNewCustomMessage(Message message, JSONObject data) {
-                Log.d(TAG, message.getFrom() + " " + data.toString());
-            }
-        });
-
-        Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        PepperTalk.NotificationBuilder builder = new PepperTalk.NotificationBuilder();
-        builder.notificationStatIcon(R.mipmap.ic_launcher);
-        builder.soundUri(soundUri);
-        builder.taskStackBuilder(TaskStackBuilder.create(getApplicationContext())
-                .addNextIntentWithParentStack(intent1));
-
-        PepperTalk.getInstance(this).enabledInAppNotifications(builder);
     }
 
     private void showToast(String text) {
